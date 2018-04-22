@@ -89,6 +89,7 @@ int main(){
     string src = "/home/nikita/Documents/Coding/c++/Labki/Self/LabaFive/";
     ifstream iFile; //read
     ofstream oFile; //write
+    ofstream sOFile; //write    
     string data("");
     Stud students[COUNT];
     cout << "Open file for write" << endl;
@@ -108,22 +109,21 @@ int main(){
         readFile(iFile, &students[i]);
         output(students[i]);
     }
+    iFile.close();
     cout << "input name of file for writing sorted list" << endl;
-    openWriteFile(src, &oFile);
+    openWriteFile(src, &sOFile);
     cout << "Sorted" << endl;
     data = "";
-    for(int i = 0; i < COUNT; i++){
-        if((students[i].grand == 'y')
-          &&(students[i].date.year == 1989)
-          &&(students[i].date.year == 1990)){
-            output(students[i]);
-            data += writeString(students[i]);
-          }
-    }
+    for(int i = 0; i < COUNT ; i++)
+        if((students[i].grand == 'y') && 
+            (students[i].date.year >= 1989)&&
+            (students[i].date.year <= 1990)){
+                output(students[i]);
+                data += writeString(students[i]);
+            }
     cout << "Write to file" << endl;
-    oFile << data;
-    oFile.close();
-    iFile.close();
+    sOFile << data;
+    sOFile.close();
     cout << "Complate!" << endl;
     return 0;
 }
