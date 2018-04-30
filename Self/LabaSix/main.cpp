@@ -3,15 +3,15 @@
  using namespace std;
  float forFunc(float m,float Y0,float Y1,float Y2){
      float s;
-     for(int i = 0; i <= m; i++){
+     for(int i = 0; i < m; i++){
         switch (i){
-            case 1:
+            case 0:
                 s = sqrt(Y0);
                 break;
-            case 2:
+            case 1:
                 s += sqrt(Y1);
                 break;
-            case 3:
+            case 2:
                 s += sqrt(Y2);
                 break;
             default :
@@ -22,19 +22,20 @@
                 Y2 = tmp;            
         }
      }
+     return s;
  }
  float whileFunc(float m,float Y0,float Y1,float Y2){
      float s;
      int i = 0;
-     while(i <= m){
+     while(i < m){
         switch (i){
-            case 1:
+            case 0:
                 s = sqrt(Y0);
                 break;
-            case 2:
+            case 1:
                 s += sqrt(Y1);
                 break;
-            case 3:
+            case 2:
                 s += sqrt(Y2);
                 break;
             default :
@@ -46,19 +47,20 @@
         }
         i++;
      }
+     return s;
  }
  float doWhileFunc(float m,float Y0,float Y1,float Y2){
      float s;
      int i = 0;
      do{
         switch (i){
-            case 1:
+            case 0:
                 s = sqrt(Y0);
                 break;
-            case 2:
+            case 1:
                 s += sqrt(Y1);
                 break;
-            case 3:
+            case 2:
                 s += sqrt(Y2);
                 break;
             default :
@@ -69,7 +71,8 @@
                 Y2 = tmp;            
         }
         i++;
-     }while(i <= m+1);
+     }while(i < m);
+     return s;
  }
  int main(){
     cout << "Input m, Y0, Y1, Y2" << endl;
