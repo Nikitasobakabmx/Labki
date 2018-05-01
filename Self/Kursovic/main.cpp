@@ -1,5 +1,7 @@
 #include <iostream>
+
 #define LENGTH 5
+
 float diff(float *fucFi, float *difference, float *y);
 float fi(float *fucFi, float *x, float &C1, float &C2, float &C3);
 float sq(float *difference, float *sqare);
