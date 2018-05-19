@@ -1,15 +1,16 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#define COUNT 6
+#include <vector>
+#include <fstream>
+#define COUNT 8
+using namespace std;
 struct Date{
     int day;
     int manth;
     int year;
 };
-
-struct Student{
-    std::string name;
+struct Stud{
+    string name;
     char gendr;
     char finish;
     char adress;
@@ -18,50 +19,57 @@ struct Student{
     int marks[5];
     int point;
 };
-void ToString(std::string* src_str, Student students);
-int main(){
-    std::string data;
-    std::string name;
-    std::string path("C:\\Users\\Nikita\\Documents\\Coding\\C++\\Labs\\Self\\LabaThree\\");
-    std::cout << "input name of file : ";
-    std::cin >> name;
-    path += name;
-    ofstram file(path);
-    std::cout << "File is open or create" << std::endl;
-    std::cout << "Input list" << std::endl;
-    Stud students[COUNT];
-    for(int i = 0; i < COUNT; i++){
-        std::cin >> students[i].name.name >> students[i].name.surname >>
-            students[i].name.patronymic >> students[i].gendr >>
-    	    students[i].finish >> students[i].adress >>
-    	    students[i].grand >> students[i].date.day >>
-    	    students[i].date.manth >> students[i].date.year;
-        for(int k = 0; k<5;k++)
-            std::cin >> students[i].marks[k];
-        std::cin >> students[i].point;
+void openWriteFile(string src, ofstream *file){
+    while(true){
+  	    cout << "input name of file\n";
+  	    string name;
+  	    cin >> name;
+  	    string path = src + name;
+        file->open(path, ios_base::app);
+        if(file->is_open())
+            return;
+        std::cout << "Create in src folder? : ";
+        bool qs;
+        cin >> qs;
+        if(qs){
+            file->open(name);
+            return;
+        }
     }
-    std::cout << "Write to one str" << std::endl;
-    for(int i = 0; i < COUNT; i++)
-        ToString(&data, students[i]);
-    std::cout << "Write to file " << std::endl;
-    file >> data;
-    std::cout << "Complete" << std::endl;
-    file.close;
-    system("pause");
-    return 0;
+    cout << "File is open\n";
 }
-void ToString(std::string* src_str, Student students){
-    src_str += students.name.name;
-    src_str += students.name.surname;
-    src_str += students.name.patronymic;
-    src_str += students.gendr;
-    src_str += students.finish;
-    src_str += students.adress;
-    src_str += students.grand;
-    src_str += std::to_string(students.date.day);
-    src_str += std::to_string(students.date.manth);
-    src_str += std::to_string(students.date.year);
-    for(int i = 0; i < 5; i++)
-        src_str += std::to_string(students.marks[i]);
-    src_str += std::to_string(students.point);
+string writeString(Stud students){
+    string data("");
+    data += students.name + " " + students.gendr + " " + students.finish + " " + 
+        students.adress + " " + students.grand + " " + to_string(students.date.day) + " " +
+        to_string(students.date.manth) + " " + to_string(students.date.year) + " ";
+    for(int k = 0; k<5;k++)
+        data += to_string(students.marks[k]) + " ";
+    data += to_string(students.point) + "\n";
+    return data;
+}
+void input(Stud *students){
+    cin >> students->name >> students->gendr >>
+    	students->finish >> students->adress >>
+    	students->grand >> students->date.day >>
+    	students->date.manth >> students->date.year;
+    for(int k = 0; k<5;k++)
+        cin >> students->marks[k];
+    cin >> students->point;
+}
+int main(){
+    ofstream file;
+    Stud students[COUNT];
+    string data = "";
+    string src = "C:\\Users\\Anrew\\Documents\\Labs\\";
+    openWriteFile(src, &file);
+    cout << "Input list" << endl;
+    for(int i = 0; i < COUNT; i++){
+        input(&students[i]);
+        data += writeString(students[i]);
+    }
+    cout<<"Write in file\n";
+    file << data;
+    file.close();
+    return 0;
 }
