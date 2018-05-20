@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <math.h>
-#include <conio.h>
 #include <stdlib.h>
 #include <locale.h>
 #define n 5
@@ -35,7 +34,7 @@ int main(){
     printf("\n\n approximation criterion J = %.3f",Kr);
     maxi(D,x,Dmax,IM);
     printf("\n\n maximum deviation = %.3f, ïðè x[%i] = %.1f\n\n",fabs(Dmax),IM+1,x[IM]);
-    getch();
+    system("pause");
     return 0;
 }
 float fi(float x,int i){
@@ -47,14 +46,6 @@ float fi(float x,int i){
         default :
             return 4 * x * x - 2;
     }
-    /*if (g==0)
-        return (1);
-    else
-        if (g==1)
-            return (2*x);
-        else
-            if (g==2)
-                return 4*x*x-2;*/
 }
 void koeff(float *x,float *y,float A[m][m],float *B){
     for( int i=0;i<m;i++){
@@ -96,22 +87,7 @@ void maxi(float D[n], float x[n], float &Dmax, int &IM){
         }
     printf("\n");
 }
-int Shod(float A[m][m]){
-    int flag = 0;
-    for (int i=0;i<m;i++){
-        float Ad = fabs(A[i][i]);
-        float Sd=0;
-        for(int j=0; j<m; j++)
-            if (j!=i)
-                Sd+=fabs(A[i][j]);
-            if (Ad>Sd)
-                flag=1;
-    }
-    if (flag=1)
-        return 0;
-    else
-        return 1;
-}
+
 void zeydel (float A[m][m], float B[m], float C[m])
 {
 	int Key;
