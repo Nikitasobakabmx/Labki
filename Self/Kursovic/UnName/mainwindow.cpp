@@ -34,8 +34,8 @@ void MainWindow::mainWork(){
         ui->unswerLabel->setText("No convergence");
         return;
     }
-    zedelMethod(matrix , accuracy, C1, C2, C3);
-    fi(funcFi, arrayOfX, C1, C2, C3);
+    zedelMethod(matrix , accuracy, C);
+    fi(funcFi, arrayOfX, C);
     diff(funcFi, difference, arrayOfY);
     unsver = sq(difference, sqare);
     output += "Unswer is : ";
@@ -76,38 +76,24 @@ void MainWindow::stringMatrix(float *matrix){
     }
 }
 
-void MainWindow::zedelMethod(float *matrix, float accuracy, float &C1 ,float &C2 ,float &C3){
-    float tmp1, tmp2, tmp3;
-    /*float tmp1 = 0;
-    float tmp[3];
-    float arr[] = {C1, C2, C3};*/
+void MainWindow::zedelMethod(float *matrix, float accuracy, float *C){
+    float tmp1;
+    float tmp[HIGH];
         do{
-        /*tmp1 = 0;
-        for( int i = 0; i < WIDTH*3;i += 4){
-            tmp[i/4] = arr[i/4];
+        tmp1 = 0;
+        for( int i = 0; i < WIDTH * HIGH;i += WIDTH){
+            tmp[i/4] = C[i/4];
                 for(int j = 0; j < WIDTH; j++)
-                    switch(i+j){
-                        case i+WIDTH :
-                            arr[i/4] += matrix[i+j];
-                            break;
-                        case !(i/4 == j):
-                            arr[i/4] += matrix[i + j] * C[j];
-                            break;
-                        default:
-                            break;
-                    }
-                arr[i/4] /= matrix[i + i/4];
-                tmp1 += abs(abs(tmp[i/4]) - abs(arr[i/4]));
-        }*/
-            tmp1 = C1; tmp2 = C2; tmp3 = C3;
-            C1 = (matrix[3] - matrix[1] * C2 - matrix[2] * C3) / matrix[0];     // 0 1 2 3
-            C2 = (matrix[7] - matrix[4] * C1 - matrix[6] * C3) / matrix[5];     // 4 5 6 7
-            C3 = (matrix[11] - matrix[8] * C1 - matrix[9] * C2) / matrix[10];   // 8 9 10 11*/
-        }while((abs(tmp1 - C1) >= accuracy) &&
-                 (abs(tmp2 - C2) >= accuracy) &&
-                 (abs(tmp3 - C3) >= accuracy));
-    /*}while(tmp1 >= accuracy);
-    C1 = arr[0]; C2 = arr[1]; C3 = arr[2];*/
+                    if((i+j) == (i + WIDTH-1))
+                        C[i/4] += matrix[i+j];
+                    else
+                        if(i/4 != j)
+                            C[i/4] -= matrix[i + j] * C[j];
+                        else
+                            C[i/4] /= matrix[i + i/4];
+                tmp1 += abs(abs(tmp[i/4]) - abs(C[i/4]));
+        }
+    }while(tmp1 >= accuracy);
 }
 
 float MainWindow::abs(float x){
@@ -125,11 +111,22 @@ float MainWindow::diff(float *fucFi, float *difference, float *y){
     return result;
 }
 
-float MainWindow::fi(float *fucFi, float *x, float &C1, float &C2, float &C3){
+float MainWindow::fi(float *fucFi, float *x, float *C){
     float result = 0;
     for(int i = 0; i < LENGTH; i++){
-        fucFi[i] = C1 + 2 * C2 * x[i] + (4 * x[i] * x[i] - 2) * C3;
-        result += fucFi[i];
+        for(int i = 0; i<HIGH; i++)
+            switch (i){
+                case 0:
+                    fucFi[i] += C[i] * 1;
+                    break;
+                case 1:
+                    fucFi[i] += C[i] * x[i];
+                    break;
+                default :
+                    funcFi[i] += (4 * x[i] * x[i] - 2) * C[i];
+                    break;
+            }
+        result = fucFi[i];
     }
     return result;
 }
