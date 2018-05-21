@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <stdio.h>
 
 /*
  * Matrix structure
@@ -35,8 +36,21 @@ void MainWindow::mainWork(){
         return;
     }
     zedelMethod(matrix , accuracy, C);
+    QString arrayOfC = "\n";
+    for(int i = 0; i < 3; i++)
+        arrayOfC += "C" + QString::number(i) +" = " +
+                QString::number(transform(C[i])) + "\n";
+    output += arrayOfC;
     fi(funcFi, arrayOfX, C);
+    QString func = "\nValue of the approximated function :\n";
+    for(int i = 0; i< LENGTH; i++)
+        func += QString::number(transform(funcFi[i])) + "\t";
+    output += func;
     diff(funcFi, difference, arrayOfY);
+    QString diference = "\nDifference of function : \n";
+    for(int i = 0; i < LENGTH; i++)
+        diference += QString::number(transform(difference[i])) + "\t";
+    output += diference + "\n";
     unsver = sq(difference, sqare);
     output += "Unswer is : ";
     output += QString::number(transform(unsver)) + "\n";
@@ -69,29 +83,29 @@ float MainWindow::fi(float x,int i){
 
 void MainWindow::stringMatrix(float *matrix){
     output = "";
-    for(int start = 0; start < WIDTH*3; start += 4){
-            for( int i = start; i < start + 4; i++)
-                output += QString::number(transform(matrix[i])) + "\t";
+    for(int i = 0; i < 3; i ++){
+            for( int j = 0; j < 4; j++)
+                output += QString::number(transform(matrix[i * 4  + j])) + "\t";
             output += "\n";
     }
 }
 
 void MainWindow::zedelMethod(float *matrix, float accuracy, float *C){
     float tmp1;
+    int n = WIDTH;
     float tmp[HIGH];
-        do{
-        tmp1 = 0;
-        for( int i = 0; i < WIDTH * HIGH;i += WIDTH){
-            tmp[i/4] = C[i/4];
-                for(int j = 0; j < WIDTH; j++)
-                    if((i+j) == (i + WIDTH-1))
-                        C[i/4] += matrix[i+j];
-                    else
-                        if(i/4 != j)
-                            C[i/4] -= matrix[i + j] * C[j];
-                        else
-                            C[i/4] /= matrix[i + i/4];
-                tmp1 += abs(abs(tmp[i/4]) - abs(C[i/4]));
+    do{
+        for( int i = 0; i < HIGH;i ++){
+            tmp[i] = C[i];
+            C[i] = 0;
+            for(int j = 0; j < WIDTH; j++){
+                if(j == 3)
+                    ;
+                else if(i != j)
+                    C[i] -= matrix[i * n + j] * C[j];
+            }
+            C[i] /= matrix[i * n + i];
+            tmp1 = abs(abs(tmp[i]) - abs(C[i]));
         }
     }while(tmp1 >= accuracy);
 }
@@ -114,16 +128,16 @@ float MainWindow::diff(float *fucFi, float *difference, float *y){
 float MainWindow::fi(float *fucFi, float *x, float *C){
     float result = 0;
     for(int i = 0; i < LENGTH; i++){
-        for(int i = 0; i<HIGH; i++)
-            switch (i){
+        for(int j = 0; j<HIGH; j++)
+            switch (j){
                 case 0:
-                    fucFi[i] += C[i] * 1;
+                    fucFi[i] += C[j] * 1;
                     break;
                 case 1:
-                    fucFi[i] += C[i] * x[i];
+                    fucFi[i] += C[j] * x[i];
                     break;
-                default :
-                    funcFi[i] += (4 * x[i] * x[i] - 2) * C[i];
+                case 2:
+                    fucFi[i] += (4 * x[i] * x[i] - 2) * C[j];
                     break;
             }
         result = fucFi[i];
