@@ -74,7 +74,7 @@ void Sort(Stud *students){
                 tmp1 += students[i].marks[k];
                 tmp2 += students[i+1].marks[k];
             }
-            if(tmp2 < tmp1){    
+            if(tmp2 > tmp1){    
                 Stud tmp = students[i];
                 students[i] = students[i + 1];
                 students[i + 1] = tmp;

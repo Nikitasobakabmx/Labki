@@ -48,7 +48,7 @@ void output(Stud students){
     cout << students.point << endl;
 }
 int main(){
-  string src = "/home/nikita/Documents/Coding/c++/Labki/Self/LabaFour/";
+  string src = "C:\\Users\\Nikitka\\Documents\\Coding\\C++\\Labki\\Self\\LabaThree\\";
   ifstream file;
   openReadFile(src, &file);
   cout << "File is open\n";
