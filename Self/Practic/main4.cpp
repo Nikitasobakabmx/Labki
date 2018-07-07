@@ -16,7 +16,7 @@ bool sort(int count, int *biArray){
     for(int i = 0; i < count; i++){
         sum += biArray[i];
     }
-    if(sum-2 >= (count)/2)
+    if(sum-2 <= count - sum)
         return true;
     
     else
@@ -30,7 +30,7 @@ void toZero(int *biArray){
 
 int main(){
     int biArray[BITES];
-    for(int i = 300; i < 800; i++){
+    for(int i = 200; i < 600; i+=10){
         toZero(biArray);
         if(sort(toBi(i, biArray),biArray))
             printf("%d\t",i);
