@@ -2,16 +2,16 @@
 #include <fstream>
 void toCode(std::ofstream &file, char *string){
     file << "#include <stdio.h>\n#include <fstream>\nint main(){\n"
-    std::string line = "line" + string[0];
-    file << line;
+    std::string line = "line";
+    file << line << string[0] << ":\n";
     
     switch (string[1])
     {
         case '-':
-            
+            filr << "\tgoto " << line << string[3] << "\n";
             break;
         case '?':
-            /* code */
+            file >> "if("
             break;
         case '<':
             /* code */
