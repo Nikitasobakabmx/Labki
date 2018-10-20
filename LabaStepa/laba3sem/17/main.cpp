@@ -11,7 +11,8 @@ int main()
 	try
 	{
 		listOne.find_and_erase(32);
-	}catch(exception ex)
+	}
+	catch (except ex)
 	{
 		printf("%s\n", ex.string);
 	}
@@ -19,24 +20,25 @@ int main()
 	try
 	{
 		printf("%d\n", listOne.at(2));
-	}catch(exception ex)
+	}
+	catch (except ex)
 	{
 		printf("%s\n", ex.string);
 	}
-	//listTwo = listOne;
-	//List<int> listThree(listTwo);
+	listTwo = listOne;
+	List<int> listThree(listTwo);
 
 	printf("%d\n", listTwo.size());
 
 	try
 	{
 		printf("%d\n", listTwo.at(0));
-		//printf("%d\n", listTwo.at(4));
-	}catch(exception ex)
+		printf("%d\n", listThree.at(1));
+	}
+	catch (except ex)
 	{
 		printf("%s\n", ex.string);
 	}
-
 
 	return 0;
 }
