@@ -1,26 +1,21 @@
 #include "List.h"
+#include <stdio.h>
 #include <iostream>
 
-struct Point{
-	int x;
-	int y;
-	int z;
-};
 
 int main()
 {
-	List<struct Point> PointList();
-	List<int> listOne(45);
-	listOne.push_back(11);
-	listOne.push_front(44);
+	List<int> listOne(12);
+	listOne.push_back(5);
+	listOne.push_front(11);
 	printf("%d\n", listOne.size());
 	try
 	{
-		listOne.find_and_erase(34);
+		listOne.find_and_erase(12);
 	}
 	catch (except ex)
 	{
-		printf("%s\n", ex.what());
+		printf("%s\n", ex.string);
 	}
 	printf("%d\n", listOne.size());
 	try
@@ -29,20 +24,23 @@ int main()
 	}
 	catch (except ex)
 	{
-		printf("%s\n", ex.what());
+		printf("%s\n", ex.string);
 	}
 	List<int> listTwo;
 	listTwo = listOne;
 	List<int> listThree(listTwo);
+	
 	printf("%d\n", listTwo.size());
+
 	try
 	{
-		printf("List Two %d\n", listTwo.at(1));
-		printf("List Three %d\n", listThree.at(0));
+		printf("%d\n", listTwo.at(0));
+		printf("%d\n", listThree.at(1));
 	}
 	catch (except ex)
 	{
-		printf("%s\n", ex.what());
+		printf("%s\n", ex.string);
 	}
+	std::cin.get();
 	return 0;
 }

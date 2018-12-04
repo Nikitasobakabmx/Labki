@@ -1,17 +1,15 @@
-#pragma once
 #include "Node.h"
 #include "except.h"
-#include <iostream>
 
 template<typename T>
 class List
 {
 private:
-	Node<T> *begin = NULL;
-	Node<T> *end = NULL;
-	int size_of_List;
+	Node<T> *begin;
+	Node<T> *end;
+	int size_of_list = 0;
 public:
-	List();
+	List() {};
 	List(const T &item);
 	List(const List<T> &copy);
 	void operator= (const List<T> &copy);
@@ -22,19 +20,6 @@ public:
 	void find_and_erase(T value);
 	~List();
 };
-template<typename T>
-List<T>::List()
-{
-	size_of_List = 0;
-}
-
-template<typename T>
-List<T>::List(const T &item)
-{
-	begin = new Node<T>(item);
-	end = begin;
-	size_of_List = 1;
-}
 
 template<typename T>
 List<T>::List(const List<T> &copy)
@@ -45,22 +30,15 @@ List<T>::List(const List<T> &copy)
 template<typename T>
 void List<T>::operator= (const List<T> &copy)
 {
-	Node<T> *delTmp;
-	while (begin != NULL)
-	{
-		delTmp = begin;
-		begin = begin->next;
-		delete delTmp;
-	}
-	this->size_of_List = copy.size_of_List;
-	if (this->size_of_List == 0)
+	this->size_of_list = copy.size_of_list;
+	if (this->size_of_list == 0)
 		return;
 	this->begin = new Node<T>(copy.begin->data);
-	end = begin;
-	if (this->size_of_List == 1)
+	if (this->size_of_list == 1)
 		return; 
+	end = begin;
 	Node<T> *tmp = copy.begin;
-	for(int i = 1; i < this->size_of_List; i++)
+	for(int i = 1; i < this->size_of_list; i++)
 	{
 		end->next = new Node<T>(tmp->next->data);
 		end = end->next;
@@ -69,17 +47,24 @@ void List<T>::operator= (const List<T> &copy)
 }
 
 template<typename T>
+List<T>::List(const T &item)
+{
+	begin = new Node<T>(item);
+	size_of_list++;
+}
+
+template<typename T>
 int List<T>::size()
 {
-	return size_of_List;
+	return size_of_list;
 }
 
 template<typename T>
 T List<T>::at(int pos)
 {
-	if (pos >= size_of_List)
-		throw except("You out of range!");
-	if(pos == size_of_List - 1)
+	if (pos >= size_of_list)
+		throw except((char*)"You out of range!");
+	if ((pos + 1) == size_of_list)
 		return end->data;
 	Node<T> *tmp = begin;
 	for (int i = 0; i < pos; i++)
@@ -90,33 +75,41 @@ T List<T>::at(int pos)
 template<typename T>
 void List<T>::push_back(const T& item)
 {
-	if (size_of_List == 0)
+	if (size_of_list == 0)
 	{
 		begin = new Node<T>(item);
-		end = begin;
-		size_of_List++;
+		size_of_list++;
+		return;
+	}
+	if (end == nullptr)
+	{
+		Node<T> *tmp = begin;
+		for (int i = 1; i < size_of_list; i++)
+			tmp = tmp->next;
+		tmp->next = new Node<T>(item);
+		end = tmp->next;
+		size_of_list++;
 		return;
 	}
 	end->next = new Node<T>(item);
 	end = end->next;
-	size_of_List++;
+	size_of_list++;
 	return;
 }
 
 template<typename T>
 void List<T>::push_front(const T& item)
 {
-	if (begin == NULL)
+	if (begin == nullptr)
 	{
 		begin = new Node<T>(item);
-		end = begin;
-		size_of_List++;
+		size_of_list++;
 		return;
 	}
 	Node<T> *tmp = new Node<T>(item);
 	tmp->next = begin;
 	begin = tmp;
-	size_of_List++;
+	size_of_list++;
 	return;
 }
 
@@ -128,18 +121,18 @@ void List<T>::find_and_erase(T value)
 	{
 		begin = tmp->next;
 		delete tmp;
-		size_of_List--;
+		size_of_list--;
 		return;
 	}
 	while (tmp->next->data != value)
 	{
 		tmp = tmp->next;
-		if (tmp->next == NULL)
-			throw except("List haven't this element!");
+		if (tmp->next == nullptr)
+			throw except((char*)"List hasn't this element!");
 	}
 	Node<T> *tmpOne = tmp->next;
 	tmp->next = tmpOne->next;
-	size_of_List--;
+	size_of_list--;
 	delete tmpOne;
 }
 
@@ -147,7 +140,7 @@ template<typename T>
 List<T>::~List()
 {
 	Node<T> *tmp;
-	while (begin != NULL)
+	while (begin != nullptr)
 	{
 		tmp = begin;
 		begin = begin->next;
