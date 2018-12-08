@@ -1,0 +1,7 @@
+Stepan
+	Stepan
+	Bogachev
+	1999
+	male
+	72300
+

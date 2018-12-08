@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1540028212 source:c:\users\nikitka\documents\coding\c++\labki\labastepa\laba3sem\17\first\main.cpp
+	"List.h"
+	<stdio.h>
+
+1540028151 c:\users\nikitka\documents\coding\c++\labki\labastepa\laba3sem\17\first\list.h
+	"Node.h"
+	"except.h"
+
+1540028095 c:\users\nikitka\documents\coding\c++\labki\labastepa\laba3sem\17\first\node.h
+
+1540028125 c:\users\nikitka\documents\coding\c++\labki\labastepa\laba3sem\17\first\except.h
+
