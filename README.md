@@ -1,0 +1,1 @@
+Garbage of labs on c and c++ 
